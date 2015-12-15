@@ -10,6 +10,6 @@ with open('ExpressLanesTrafficWithTolls-2014.csv', 'rb') as csvfile:
      		row[3] = int(row[3])
      	if row[2] != '' or row[2] != "HOV ONLY" or row[2] != " ":
      		row[2] = float(row[2])
-     	else row[2] == '' or row[2] == " " or row[2] == "HOV ONLY" or row[3] == '' or row[4] == '':
+     	if row[2] == '' or row[2] == " " or row[2] == "HOV ONLY" or row[3] == '' or row[4] == '':
                row = int(0)
      	print row
