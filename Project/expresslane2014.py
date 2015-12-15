@@ -61,17 +61,55 @@ def total_2014():
      
 
 def month_traffic():
-     month_traffic = {"jan": 0 }
+     traffic_month = {"jan": 0, "feb": 0, "mar": 0, "apr":0, "may":0, "june":0, "july":0, "aug":0, "sept":0, "oct":0, "nov": 0, "dec": 0}
      with open('ExpressLanesTrafficWithTolls-2014.csv', 'rb') as csvfile:
           trafficDataRaw = csv.reader(csvfile, delimiter=',', quotechar='|')
           trafficDataRaw.next()
           for row in trafficDataRaw:
+               date = row[0].split(" ")
+               date_str = date[0]
                row[3] = int(row[3])
-               total_traffic += row[3]
+               month = date_str.split("/")[0]
+               # Number of cars in a month
+               if month == "1":
+                    traffic_month['jan'] +=row[3]         
+               elif month == "2":
+                    traffic_month['feb'] +=row[3] 
+               elif month == "3":
+                    traffic_month['mar'] +=row[3] 
+               elif month == "4":
+                    traffic_month['apr'] +=row[3] 
+               elif month == "5":
+                    traffic_month['may'] +=row[3] 
+               elif month == "6":
+                    traffic_month['june'] +=row[3] 
+               elif month == "7":
+                    traffic_month['july'] +=row[3] 
+               elif month == "8":
+                    traffic_month['aug'] +=row[3] 
+               elif month == "9":
+                    traffic_month['sept'] +=row[3] 
+               elif month == "10":
+                    traffic_month['oct'] +=row[3] 
+               elif month == "11":
+                    traffic_month['nov'] +=row[3] 
+               elif month == "12":
+                    traffic_month['dec'] +=row[3] 
+     return traffic_month
      
+
+def weekday_traffic():
+     pass
+
+
+
+
+
 
 def main():
      print total_2014()
+     print month_traffic()
+     print weekday_traffic()
 
 main()
      
@@ -206,22 +244,26 @@ main()
      # # print "8 AM hourly car count is ", traffic_hours_am['am8']
      # # print "9 AM hourly car count is", traffic_hours_am['am9']
      
-=======
+
           #Calculate car count on 237 Westbound and 237 Eastbound
           # print row[1][-1]
+with open('ExpressLanesTrafficWithTolls-2014.csv', 'rb') as csvfile:
+     trafficDataRaw = csv.reader(csvfile, delimiter=',', quotechar='|')
+     trafficDataRaw.next()
+     for row in trafficDataRaw:
           if row[1][-1] == 'E':
                East+=row[3]
           else:
                West+=row[3]
           
-
+          
           dateTime = row[0]  ### (date and time together)
           date = dateTime.split()[0] ### (splitting date and time. Showing date only, 1/1/2014 format)
           # print date
           monthlist = date.split("/")  ### (splitting date into list, i.e.[{'1','1','2014'])
           # print monthlist
           monthlist[1] = monthlist[1] + ", "    ### (concatenate i.e. 1,)
-
+          
           if monthlist[0] == '1':
                monthlist[0] = "January "
           if monthlist[0] == "2":
@@ -252,8 +294,8 @@ main()
           # print weekday   ### (prints day only, i.e Monday)
           week = datetime.datetime.strptime(date_string, '%B %d, %Y').strftime('%W')  
           # print week    ### (prints week only, i.e. week 0, week 1, etc.)
-
-     # Counting cars week by week for a total of 52 weeks.  January 1, 2014 fall on a Wednesday.  Hence, all days in a new year preceding the first Monday are considered to be in week 0.
+          
+          # Counting cars week by week for a total of 52 weeks.  January 1, 2014 fall on a Wednesday.  Hence, all days in a new year preceding the first Monday are considered to be in week 0.
           if week == '00':
                traffic_week['week 0'] +=row[3]
           if week == '01':
@@ -361,15 +403,15 @@ main()
           if week == '52':
                traffic_week['week 52'] +=row[3]
           
-
-
+          
+          
           # Counting cars on Monday, Tuesday, Wednesday, Thursday, Friday 
           mondays = {"January" : 0, "February":0, "March":0, "April":0, "May":0, "June":0, "July":0, "August":0, "September":0, "October":0, "November":0, "December":0}
           tuesdays = {"January":0, "February":0, "March":0, "April":0, "May":0, "June":0, "July":0, "August":0, "September":0, "October":0, "November":0, "December":0}
           wednesdays = {"January":0, "February":0, "March":0, "April":0, "May":0, "June":0, "July":0, "August":0, "September":0, "October":0, "November":0, "December":0}
           thurdays = {"January":0, "February":0, "March":0, "April":0, "May":0, "June":0, "July":0, "August":0, "September":0, "October":0, "November":0, "December":0}
           fridays = {"January":0, "February":0, "March":0, "April":0, "May":0, "June":0, "July":0, "August":0, "September":0, "October":0, "November":0, "December":0}
-
+          
           if weekday == "Monday":
                Monday += row[3]
           if weekday == "Tuesday":
@@ -402,125 +444,100 @@ main()
                traffic_hours_pm['pm5'] +=row[3]
           elif hour == '18':
                traffic_hours_pm['pm6'] +=row[3]
-
-
-          month = date_str.split("/")[0]
-          # Number of cars in a month
-          if month == "1":
-               traffic_month['jan'] +=row[3]         
-          elif month == "2":
-               traffic_month['feb'] +=row[3] 
-          elif month == "3":
-               traffic_month['mar'] +=row[3] 
-          elif month == "4":
-               traffic_month['apr'] +=row[3] 
-          elif month == "5":
-               traffic_month['may'] +=row[3] 
-          elif month == "6":
-               traffic_month['june'] +=row[3] 
-          elif month == "7":
-               traffic_month['july'] +=row[3] 
-          elif month == "8":
-               traffic_month['aug'] +=row[3] 
-          elif month == "9":
-               traffic_month['sept'] +=row[3] 
-          elif month == "10":
-               traffic_month['oct'] +=row[3] 
-          elif month == "11":
-               traffic_month['nov'] +=row[3] 
-          elif month == "12":
-               traffic_month['dec'] +=row[3] 
-
-     # Printing total number of cars on each day on 237 Westbound and Eastbound     
-     print "Monday car count:", Monday
-     print "Tuesday car count:", Tuesday
-     print "Wednesday car count:", Wednesday
-     print "Thursday car count:", Thursday
-     print "Friday car count:", Friday
-
-     # Printing total number of cars hourly for morning and evening timeframe on 237 Westbound and Eastbound
-     print "5 AM hourly car count:", traffic_hours_am['am5']
-     print "6 AM hourly car count:", traffic_hours_am['am6']
-     print "7 AM hourly car count:", traffic_hours_am['am7']
-     print "8 AM hourly car count:", traffic_hours_am['am8']
-     print "9 AM hourly car count:", traffic_hours_am['am9']
-     print "3 PM hourly car count:", traffic_hours_pm['pm3']
-     print "4 PM hourly car count:", traffic_hours_pm['pm4']
-     print "5 PM hourly car count:", traffic_hours_pm['pm5']
-     print "6 PM hourly car count:", traffic_hours_pm['pm6']
-
-
-     # Printing total number of cars each month on 237 Westbound and Eastbound
-     print "January car count:", traffic_month['jan']   
-     print "February car count:", traffic_month['feb']
-     print "March car count:", traffic_month['mar']
-     print "April car count:", traffic_month['apr']
-     print "May car count:", traffic_month['may']
-     print "June car count:", traffic_month['june']
-     print "July car count:", traffic_month['july']
-     print "August car count:", traffic_month['aug']
-     print "September car count:", traffic_month['sept']
-     print "October car count:", traffic_month['oct']
-     print "November car count:", traffic_month['nov']
-     print "December car count:", traffic_month['dec']
-
-
-     # Printing total number of cars on 237 Westbound and Eastbound 
-     print "Number of cars on 237 Westbound:", West
-     print "Number of cars on 237 Eastbound:", East
->>>>>>> 52730e4b1d163064ee782b58b3be36cda9707ede
-
-
-     # Printing total number of cars weekly on 237 Westbound and Eastbound
-     print "Car count for week 0:", traffic_week['week 0']
-     print "Car count for week 1:", traffic_week['week 1']
-     print "Car count for week 2:", traffic_week['week 2']
-     print "Car count for week 3:", traffic_week['week 4']
-     print "Car count for week 5:", traffic_week['week 5']
-     print "Car count for week 6:", traffic_week['week 6']
-     print "Car count for week 7:", traffic_week['week 7']
-     print "Car count for week 8:", traffic_week['week 8']
-     print "Car count for week 9:", traffic_week['week 9']
-     print "Car count for week 10:", traffic_week['week 10']
-     print "Car count for week 11:", traffic_week['week 11']
-     print "Car count for week 12:", traffic_week['week 12']
-     print "Car count for week 13:", traffic_week['week 13']
-     print "Car count for week 14:", traffic_week['week 14']
-     print "Car count for week 15:", traffic_week['week 15']
-     print "Car count for week 16:", traffic_week['week 16']
-     print "Car count for week 17:", traffic_week['week 17']
-     print "Car count for week 18:", traffic_week['week 18']
-     print "Car count for week 19:", traffic_week['week 19']
-     print "Car count for week 20:", traffic_week['week 20']
-     print "Car count for week 21:", traffic_week['week 21']
-     print "Car count for week 22:", traffic_week['week 22']
-     print "Car count for week 23:", traffic_week['week 23']
-     print "Car count for week 24:", traffic_week['week 24']
-     print "Car count for week 25:", traffic_week['week 25']
-     print "Car count for week 26:", traffic_week['week 26']
-     print "Car count for week 27:", traffic_week['week 27']
-     print "Car count for week 28:", traffic_week['week 28']
-     print "Car count for week 29:", traffic_week['week 29']
-     print "Car count for week 30:", traffic_week['week 30']
-     print "Car count for week 31:", traffic_week['week 31']
-     print "Car count for week 32:", traffic_week['week 32']
-     print "Car count for week 33:", traffic_week['week 33']
-     print "Car count for week 34:", traffic_week['week 34']
-     print "Car count for week 35:", traffic_week['week 35']
-     print "Car count for week 36:", traffic_week['week 36']
-     print "Car count for week 37:", traffic_week['week 37']
-     print "Car count for week 38:", traffic_week['week 38']
-     print "Car count for week 39:", traffic_week['week 39']
-     print "Car count for week 40:", traffic_week['week 40']
-     print "Car count for week 41:", traffic_week['week 41']
-     print "Car count for week 42:", traffic_week['week 42']
-     print "Car count for week 43:", traffic_week['week 43']
-     print "Car count for week 44:", traffic_week['week 44']
-     print "Car count for week 45:", traffic_week['week 45']
-     print "Car count for week 46:", traffic_week['week 46']
-     print "Car count for week 47:", traffic_week['week 47']
-     print "Car count for week 48:", traffic_week['week 48']
-     print "Car count for week 49:", traffic_week['week 49']
-     print "Car count for week 50:", traffic_week['week 50']
-     print "Car count for week 51:", traffic_week['week 51']
-     print "Car count for week 52:", traffic_week['week 52']
+          
+          
+          
+          
+               # Printing total number of cars on each day on 237 Westbound and Eastbound     
+          print "Monday car count:", Monday
+          print "Tuesday car count:", Tuesday
+          print "Wednesday car count:", Wednesday
+          print "Thursday car count:", Thursday
+          print "Friday car count:", Friday
+          
+               # Printing total number of cars hourly for morning and evening timeframe on 237 Westbound and Eastbound
+          print "5 AM hourly car count:", traffic_hours_am['am5']
+          print "6 AM hourly car count:", traffic_hours_am['am6']
+          print "7 AM hourly car count:", traffic_hours_am['am7']
+          print "8 AM hourly car count:", traffic_hours_am['am8']
+          print "9 AM hourly car count:", traffic_hours_am['am9']
+          print "3 PM hourly car count:", traffic_hours_pm['pm3']
+          print "4 PM hourly car count:", traffic_hours_pm['pm4']
+          print "5 PM hourly car count:", traffic_hours_pm['pm5']
+          print "6 PM hourly car count:", traffic_hours_pm['pm6']
+          
+          
+          # Printing total number of cars each month on 237 Westbound and Eastbound
+          print "January car count:", traffic_month['jan']   
+          print "February car count:", traffic_month['feb']
+          print "March car count:", traffic_month['mar']
+          print "April car count:", traffic_month['apr']
+          print "May car count:", traffic_month['may']
+          print "June car count:", traffic_month['june']
+          print "July car count:", traffic_month['july']
+          print "August car count:", traffic_month['aug']
+          print "September car count:", traffic_month['sept']
+          print "October car count:", traffic_month['oct']
+          print "November car count:", traffic_month['nov']
+          print "December car count:", traffic_month['dec']
+          
+          
+          # Printing total number of cars on 237 Westbound and Eastbound 
+          print "Number of cars on 237 Westbound:", West
+          print "Number of cars on 237 Eastbound:", East
+          
+          
+          
+               # Printing total number of cars weekly on 237 Westbound and Eastbound
+          print "Car count for week 0:", traffic_week['week 0']
+          print "Car count for week 1:", traffic_week['week 1']
+          print "Car count for week 2:", traffic_week['week 2']
+          print "Car count for week 3:", traffic_week['week 4']
+          print "Car count for week 5:", traffic_week['week 5']
+          print "Car count for week 6:", traffic_week['week 6']
+          print "Car count for week 7:", traffic_week['week 7']
+          print "Car count for week 8:", traffic_week['week 8']
+          print "Car count for week 9:", traffic_week['week 9']
+          print "Car count for week 10:", traffic_week['week 10']
+          print "Car count for week 11:", traffic_week['week 11']
+          print "Car count for week 12:", traffic_week['week 12']
+          print "Car count for week 13:", traffic_week['week 13']
+          print "Car count for week 14:", traffic_week['week 14']
+          print "Car count for week 15:", traffic_week['week 15']
+          print "Car count for week 16:", traffic_week['week 16']
+          print "Car count for week 17:", traffic_week['week 17']
+          print "Car count for week 18:", traffic_week['week 18']
+          print "Car count for week 19:", traffic_week['week 19']
+          print "Car count for week 20:", traffic_week['week 20']
+          print "Car count for week 21:", traffic_week['week 21']
+          print "Car count for week 22:", traffic_week['week 22']
+          print "Car count for week 23:", traffic_week['week 23']
+          print "Car count for week 24:", traffic_week['week 24']
+          print "Car count for week 25:", traffic_week['week 25']
+          print "Car count for week 26:", traffic_week['week 26']
+          print "Car count for week 27:", traffic_week['week 27']
+          print "Car count for week 28:", traffic_week['week 28']
+          print "Car count for week 29:", traffic_week['week 29']
+          print "Car count for week 30:", traffic_week['week 30']
+          print "Car count for week 31:", traffic_week['week 31']
+          print "Car count for week 32:", traffic_week['week 32']
+          print "Car count for week 33:", traffic_week['week 33']
+          print "Car count for week 34:", traffic_week['week 34']
+          print "Car count for week 35:", traffic_week['week 35']
+          print "Car count for week 36:", traffic_week['week 36']
+          print "Car count for week 37:", traffic_week['week 37']
+          print "Car count for week 38:", traffic_week['week 38']
+          print "Car count for week 39:", traffic_week['week 39']
+          print "Car count for week 40:", traffic_week['week 40']
+          print "Car count for week 41:", traffic_week['week 41']
+          print "Car count for week 42:", traffic_week['week 42']
+          print "Car count for week 43:", traffic_week['week 43']
+          print "Car count for week 44:", traffic_week['week 44']
+          print "Car count for week 45:", traffic_week['week 45']
+          print "Car count for week 46:", traffic_week['week 46']
+          print "Car count for week 47:", traffic_week['week 47']
+          print "Car count for week 48:", traffic_week['week 48']
+          print "Car count for week 49:", traffic_week['week 49']
+          print "Car count for week 50:", traffic_week['week 50']
+          print "Car count for week 51:", traffic_week['week 51']
+          print "Car count for week 52:", traffic_week['week 52']
